@@ -52,10 +52,20 @@ function addTask() {
     span.className = 'taskText';
     span.textContent = text;
 
+    const checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
+    checkbox.className = 'taskCheckbox';
+
+    checkbox.addEventListener('change', function() {
+    li.classList.toggle('done');
+    });
+
     // it adds class="done" on and off when the toggle is triggered by 'click'
     span.addEventListener('click', function() {
         li.classList.toggle('done');
     });
+
+
 
         // Create delete button
     const deleteBtn = document.createElement('button');
@@ -78,6 +88,8 @@ function addTask() {
 
     li.appendChild(span);
     deleteBtn.appendChild(deleteIcon);
+    li.appendChild(checkbox);
+    li.appendChild(span);
     li.appendChild(deleteBtn);
 
     taskList.appendChild(li);

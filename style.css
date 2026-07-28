@@ -163,4 +163,19 @@ h1 {
     flex-shrink: 0;
 }
 
+.done .taskText {
+    text-decoration: line-through;
+    opacity: 0.5;
+}
+
+.taskCheckbox {
+    width: 20px;
+    height: 20px;
+    accent-color: rgb(19, 201, 28);
+    cursor: pointer;
+}
+
+.taskCheckbox:checked {
+    accent-color: rgb(19, 201, 28);
+}
 
