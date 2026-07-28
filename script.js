@@ -11,9 +11,9 @@ userInput.addEventListener('input', function() {
     
     if (userInput.value.length === 100){
             charCount.style.color = 'red';
+            charCount.textContent = userInput.value.length + ' / 100' + ' (Max  limit reached)';
         } else {
             charCount.style.color = 'black';
-            charCount.textContent = userInput.value.length + ' / 100' + ' (Max  limit reached)';
         }
 });
 
