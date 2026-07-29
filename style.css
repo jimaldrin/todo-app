@@ -58,6 +58,7 @@ h1 {
     transition: border-color 0.3s ease;
 }
 
+
 /* :focus changes the style while cursor hovers at the element */
 #userInput:hover {
     border-radius: 10px;
@@ -121,8 +122,19 @@ h1 {
 }
 
 .taskText {
+    flex: 1;
     min-width: 0;
-    overflow-wrap: anywhere;
+
+    resize: none;
+    overflow: hidden;
+
+    border: none;
+    outline: none;
+    background: transparent;
+
+    font-family: 'Montserrat', sans-serif;
+    font-size: medium;
+    line-height: 20px;
 }
 
 .hidden {
@@ -159,6 +171,10 @@ h1 {
     transition: color 0.3s ease;
     position: relative;
     top: 2px;
+}
+
+.icons {
+    display: flex;
 }
 
 .editBtn,

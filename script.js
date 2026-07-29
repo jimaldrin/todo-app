@@ -1,4 +1,7 @@
-// Get HTML elements
+// ========================================
+// GET HTML ELEMENTS
+// ========================================
+
 const userInput = document.getElementById('userInput');
 const addBtn = document.getElementById('addBtn');
 const taskList = document.getElementById('taskList');
@@ -6,6 +9,11 @@ const taskTitle = document.getElementById('taskTitle');
 const line = document.getElementById('line');
 const charCount = document.getElementById('charCount');
 
+
+
+// ========================================
+// MAIN INPUT EVENTS
+// ========================================
 
 // Character counter + auto-growing textarea
 userInput.addEventListener('input', function() {
@@ -17,10 +25,10 @@ userInput.addEventListener('input', function() {
     userInput.style.height = this.scrollHeight + 'px';
 
     // Change counter when max limit is reached
-    if (userInput.value.length === 100) {
+    if (userInput.value.length === 200) {
         charCount.style.color = 'red';
         charCount.textContent =
-            userInput.value.length + ' / 200' + ' (Max limit reached)';
+            userInput.value.length + ' / 200 (Max limit reached)';
     } else {
         charCount.style.color = 'black';
     }
@@ -42,110 +50,141 @@ userInput.addEventListener('keydown', function(e) {
 });
 
 
+
+// ========================================
+// ADD TASK
+// ========================================
+
 function addTask() {
+
+    // ------------------------------------
+    // 1. GET AND VALIDATE USER INPUT
+    // ------------------------------------
 
     const text = userInput.value.trim();
 
-    // Prevent empty tasks
     if (text === '') {
         userInput.focus();
         return;
     }
 
 
-    // Show Task List title and line
-    taskTitle.classList.remove('hidden');
-    line.classList.remove('hidden');
+    // ------------------------------------
+    // 2. CREATE TASK ELEMENTS
+    // ------------------------------------
 
-
-    // Create list item
+    // List item
     const li = document.createElement('li');
 
 
-    // Create task text
-    const taskInput = document.createElement('input');
+    // Checkbox
+    const checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
+    checkbox.className = 'taskCheckbox';
+
+
+    // Task text
+    const taskInput = document.createElement('textarea');
     taskInput.className = 'taskText';
     taskInput.value = text;
     taskInput.readOnly = true;
+    taskInput.rows = 1;
 
-    // Create edit button
+
+    // Edit button
     const editBtn = document.createElement('button');
     editBtn.className = 'editBtn';
 
-    editBtn.addEventListener ('click', function(){
 
+    // Edit icon
+    const editIcon = document.createElement('span');
+    editIcon.className = 'material-symbols-outlined';
+    editIcon.textContent = 'edit';
+
+
+    // Delete button
+    const deleteBtn = document.createElement('button');
+    deleteBtn.className = 'deleteBtn';
+
+
+    // Delete icon
+    const deleteIcon = document.createElement('span');
+    deleteIcon.className = 'material-symbols-outlined';
+    deleteIcon.textContent = 'delete';
+
+
+    // Icon container
+    const iconArea = document.createElement('span');
+    iconArea.className = 'icons';
+
+
+
+    // ------------------------------------
+    // 3. TASK FUNCTIONS
+    // ------------------------------------
+
+    function resizeTask() {
+        taskInput.style.height = 'auto';
+        taskInput.style.height = taskInput.scrollHeight + 'px';
+    }
+
+
+
+    // ------------------------------------
+    // 4. TASK EVENT LISTENERS
+    // ------------------------------------
+
+    // Automatically resize task text
+    taskInput.addEventListener('input', resizeTask);
+
+
+    // Checkbox: mark task as done
+    checkbox.addEventListener('change', function() {
+        li.classList.toggle('done');
+    });
+
+
+    // Edit / Save task
+    editBtn.addEventListener('click', function() {
+
+        // EDIT MODE
         if (taskInput.readOnly === true) {
+
             taskInput.readOnly = false;
             taskInput.focus();
-        } else {
+
+            editIcon.textContent = 'check';
+            checkbox.style.display = 'none';
+
+        }
+
+        // SAVE MODE
+        else {
+
             const editedText = taskInput.value.trim();
 
-            if (editedText === ''){
+            // Prevent empty task
+            if (editedText === '') {
                 taskInput.focus();
                 return;
             }
 
             taskInput.value = editedText;
             taskInput.readOnly = true;
+
+            editIcon.textContent = 'edit';
+            checkbox.style.display = '';
         }
+
     });
 
 
-    // Create checkbox
-    const checkbox = document.createElement('input');
-    checkbox.type = 'checkbox';
-    checkbox.className = 'taskCheckbox';
-
-
-    // Mark task as done using checkbox
-    checkbox.addEventListener('change', function() {
-        li.classList.toggle('done');
-    });
-
-
-    // Mark task as done by clicking text
-    taskInput.addEventListener('click', function() {
-        li.classList.toggle('done');
-        checkbox.checked = li.classList.contains('done');
-    });
-
-
-    // Create delete button
-    const deleteBtn = document.createElement('button');
-    deleteBtn.className = 'deleteBtn';
-
-    // Create Google Material delete icon
-    const deleteIcon = document.createElement('span');
-    deleteIcon.className = 'material-symbols-outlined';
-    deleteIcon.textContent = 'delete';
-
-    deleteBtn.appendChild(deleteIcon);
-
-    // Create Google Material edit icon
-    const editIcon = document.createElement('span');
-    editIcon.className = 'material-symbols-outlined';
-    editIcon.textContent = 'edit';
-
-    editBtn.appendChild(editIcon);
-
-
-    // Create container for icons
-    const iconArea = document.createElement('span');
-    iconArea.className = 'icons';
-
-    iconArea.appendChild(deleteBtn);
-    iconArea.appendChild(editBtn);
-
-
-    // Put icon container inside <li>
-
-
-    // Delete task when button is clicked
+    // Delete task
     deleteBtn.addEventListener('click', function() {
 
         li.remove();
 
-        // Hide Task List title if there are no tasks left
+        // Hide title and line if no tasks remain
         if (taskList.children.length === 0) {
             line.classList.add('hidden');
             taskTitle.classList.add('hidden');
@@ -153,27 +192,51 @@ function addTask() {
 
     });
 
-    
-        // Delete task when button is clicked
 
 
-    // Put everything inside <li>
+    // ------------------------------------
+    // 5. BUILD THE TASK
+    // ------------------------------------
+
+    // Put icons inside buttons
+    editBtn.appendChild(editIcon);
+    deleteBtn.appendChild(deleteIcon);
+
+
+    // Put buttons inside icon container
+    iconArea.appendChild(deleteBtn);
+    iconArea.appendChild(editBtn);
+
+
+    // Put task elements inside <li>
     li.appendChild(checkbox);
     li.appendChild(taskInput);
     li.appendChild(iconArea);
+
 
     // Put <li> inside task list
     taskList.appendChild(li);
 
 
-    // Reset textarea
+    // Resize task textarea after it exists on page
+    resizeTask();
+
+
+    // Show Task List title and line
+    taskTitle.classList.remove('hidden');
+    line.classList.remove('hidden');
+
+
+
+    // ------------------------------------
+    // 6. RESET MAIN INPUT
+    // ------------------------------------
+
     userInput.value = '';
     userInput.style.height = 'auto';
 
-    // Reset character counter
     charCount.textContent = '0 / 200';
     charCount.style.color = 'black';
 
-    // Put cursor back into textarea
     userInput.focus();
 }
