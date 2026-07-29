@@ -17,7 +17,7 @@ body {
     border-radius: 16px;
     box-shadow: 0 8px 32px rgba(0,0,0,0.1);
     width: 80%;
-    max-width: 480px;
+    max-width: 800px;
 }
 
 /* .container .lists {
@@ -33,19 +33,29 @@ h1 {
 
 .form {
     display: flex;
+    flex-direction: column;
     gap: 7px;
 }
 
 #userInput {
-    flex: 1;
-    min-width: 0;
-    padding: 15px 10px;
+    width: 100%;
+
+    resize: none;
+    overflow-y: hidden;
+
+    height: 46px;
+    min-height: 46px;
+
+    padding: 12px;
     border-radius: 10px;
     border: 2px solid rgb(224, 224, 224);
-    transition: border-color 0.3s ease;
-    font-family: 'montserrat', sans-serif;
+
+    font-family: 'Montserrat', sans-serif;
     font-weight: 400;
     font-size: medium;
+    line-height: 20px;
+
+    transition: border-color 0.3s ease;
 }
 
 /* :focus changes the style while cursor hovers at the element */
@@ -125,12 +135,11 @@ h1 {
     width: 90%;
     border: 0;
     border-top: 2px solid #e2e2e2;
-    margin: 1.5em 0;
+    margin: 10px 0;
     padding: 0;
 }
 
 #taskTitle {
-    margin-top: 20px;
     color: rgb(44, 44, 44);
     font-size: 12px;
     font-weight: 400;
@@ -152,15 +161,20 @@ h1 {
     top: 2px;
 }
 
-.material-symbols-outlined:hover {
-    color: #f13939;
-}
-
+.editBtn,
 .deleteBtn {
     border: none;
     background: none;
     cursor: pointer;
-    flex-shrink: 0;
+    padding: 5px;
+}
+
+.deleteBtn:hover {
+    color: #f13939;
+}
+
+.editBtn:hover {
+    color: #1dc22b;
 }
 
 .done .taskText {
@@ -178,4 +192,5 @@ h1 {
 .taskCheckbox:checked {
     accent-color: rgb(19, 201, 28);
 }
+
 
