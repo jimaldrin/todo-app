@@ -141,6 +141,12 @@ function addTask() {
     // Checkbox: mark task as done
     checkbox.addEventListener('change', function() {
         li.classList.toggle('done');
+        
+        if (checkbox.checked === true){
+            editBtn.style.display = 'none';
+        } else {
+            editBtn.style.display = '';
+        }
     });
 
 
